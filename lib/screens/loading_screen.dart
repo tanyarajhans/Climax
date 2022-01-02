@@ -1,25 +1,29 @@
+import 'dart:convert';
+
+import 'package:clima/networking.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
+const apiKey = '09467ac2e9b3aa8502ff133b31fb8f0c';
 class LoadingScreen extends StatefulWidget {
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  
+double longitude;
+double latitude;
+
 Position position;
   void initState(){
     super.initState();
-    getLocation();
   }
 
-  Future<Position> getLocation() async {
+  Future<Position> getLocationData() async {
   bool serviceEnabled;
   LocationPermission permission;
-  double longitude;
-  double latitude;
+  
 
   // Test if location services are enabled.
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -52,21 +56,21 @@ Position position;
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-  latitude=position.latitude;
-  longitude=position.longitude;
-  print('Latitude: $latitude');
-  print('Longitude: $longitude');
+
+  latitude = position.latitude;
+  longitude = position.longitude;
+
+  NetworkHelper networkHelper = NetworkHelper('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+
+  var weatherData = await networkHelper.getData();
+
+  
   return await Geolocator.getCurrentPosition();
   }
 
-  void getData() async {
-    http.Response response = await http.get(Uri.parse('https://samples.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=b6907d829e10d714a6e88b30761fae22'));
-    print(response.body);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    getData();
     return Scaffold(
       // body: Center(
       //   child: TextButton(
