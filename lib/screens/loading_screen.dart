@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:clima/networking.dart';
+import 'package:clima/screens/location_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 const apiKey = '09467ac2e9b3aa8502ff133b31fb8f0c';
 class LoadingScreen extends StatefulWidget {
@@ -16,11 +18,13 @@ double longitude;
 double latitude;
 
 Position position;
-  void initState(){
-    super.initState();
-  }
 
-  Future<Position> getLocationData() async {
+void initState(){
+    super.initState();
+    getLocationData();
+}
+
+Future<Position> getLocationData() async {
   bool serviceEnabled;
   LocationPermission permission;
   
@@ -64,24 +68,27 @@ Position position;
 
   var weatherData = await networkHelper.getData();
 
+  // print(weatherData);
+
   
+
+  Navigator.push(context, MaterialPageRoute<void>(builder: (context) {
+    print("abcd");
+    return LocationScreen();
+  }));
   return await Geolocator.getCurrentPosition();
-  }
+}
 
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: Center(
-      //   child: TextButton(
-      //     onPressed: () {
-      //       //Get the current location
-      //       getLocation();
-      //       print(position);
-      //     },
-      //     child: Text('Get Location'),
-      //   ),
-      // ),
+      body: Center(
+        child: SpinKitRotatingCircle(
+          color: Colors.white,
+          size: 100.0,
+        ),
+      ),
     );
   }
 }

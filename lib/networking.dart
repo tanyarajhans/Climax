@@ -8,12 +8,7 @@ class NetworkHelper{
 
   Future getData() async{
     http.Response response = await http.get(Uri.parse(url));
-    if(response.statusCode==200){
-      var decodedData = jsonDecode(response.body);
-      return decodedData;
-    }
-     
-     else
-      print(response.statusCode);
+    var decodedData = jsonDecode(response.body);
+    return decodedData;
   }
 }
