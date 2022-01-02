@@ -1,7 +1,7 @@
 
 
 
-# Clima ☁
+# Climax ☁
 
 ## Our Goal
 

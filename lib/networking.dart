@@ -6,7 +6,7 @@ class NetworkHelper{
 
   final String url;
 
-  Future getData() async{
+  Future<dynamic> getData() async{
     http.Response response = await http.get(Uri.parse(url));
     var decodedData = jsonDecode(response.body);
     return decodedData;
