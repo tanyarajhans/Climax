@@ -57,6 +57,14 @@ Future<Position> getLocationData() async {
 
 }
 
+  Future<dynamic> getCityWeather(String cityName) async {
+    var url = 'https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$apiKey&units=metric';
+    NetworkHelper networkHelper = new NetworkHelper(url);
+    var weatherData = await networkHelper.getData();
+    print(weatherData);
+    return weatherData;
+  }
+
   Future<dynamic> getLocationWeather() async {
     double longitude;
     double latitude;
